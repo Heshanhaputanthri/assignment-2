@@ -1,43 +1,36 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "COVID-19 Active Cases (10 Oct 2020)",
-  "width": 800,
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "CO2 emissions 2018 (metric tonnes per capita)",
+  "width": 1000,
   "height": 600,
   "data": {
-    "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
-    "format": {
-          "type": "topojson",
-          "feature": "ne_110m_admin_0_countries"
-        }
+    "url": "https://kelvinvalani.github.io/FIT3179/vis2/js/ne_110m.json",
+    "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
   },
-  "transform": [{
+  "transform": [
+    {
       "lookup": "properties.NAME",
       "from": {
         "data": {
-          "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/3_choropleth_map/data/mapData.csv"
+          "url": "https://kelvinvalani.github.io/FIT3179/vis2/data/newmap.csv"
         },
-        "key": "Country",
-        "fields": ["Active"]
+        "key": "Country Name",
+        "fields": ["Emission"]
       }
-    },
-    {"calculate": "datum.Active + 0.1", "as": "Active Cases"}
+    }
   ],
-  "projection": {
-    "type": "equirectangular"
-  },
-  "mark": {
-    "type": "geoshape"
-    },
+  "projection": {"type": "equirectangular"},
+  "mark": {"type": "geoshape"},
   "encoding": {
     "color": {
-      "field": "Active Cases",
+      "field": "Emission",
+      "title": "CO2 emissions",
       "type": "quantitative",
-      "scale": {"type": "log"}
+      "scale": {"type": "log", "range": ["#0000", "brown"]}
     },
     "tooltip": [
-      {"field": "properties.NAME", "type": "nominal", "title": "Country"},
-      {"field": "Active", "type": "quantitative"}
+      {"field": "properties.NAME", "type": "nominal", "title": "Country Name"},
+      {"field": "Emission", "type": "quantitative"}
     ]
   }
-
 }
